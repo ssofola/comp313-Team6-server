@@ -1,13 +1,14 @@
-const express = require('express');
-const app = express();
-const PORT = 4000;
+var mongoose = require('./config/mongoose');
+var express = require('./config/express');
 
-// Define a simple GET endpoint
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
+// Connect to MongoDB
+var db = mongoose();
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Create a new Express application instance
+var app = express();
+
+// Use the Express application instance to listen to the port 5000
+app.listen(5000);
+
+module.exports = app;
+console.log('Server running at http://localhost:5000/');
