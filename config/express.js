@@ -36,12 +36,17 @@ module.exports = function() {
         secret: config.sessionSecret
     }));
 
-    //
-
     // Configure the 'CORS' middleware
     app.use(cors());
+
     // Load the routing files
     require('../app/routes/user.server.routes')(app);
+    require('../app/routes/user.server.routes')(app);
+    require('../app/routes/userInstitution.server.routes')(app);
+    require('../app/routes/location.server.routes')(app);
+    require('../app/routes/institution.server.routes')(app);
+    require('../app/routes/test.server.routes')(app);
+    
     // Return the Express application instance
     return app;
 };
