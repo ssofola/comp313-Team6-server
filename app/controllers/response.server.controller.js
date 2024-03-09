@@ -14,7 +14,6 @@ const getResponses = async (req, res) => {
       const { id } = req.params;
       const response = await Response.findById(id);
       res.status(200).json(response);
-      Ï;
     } catch {
       res.status(500).json({ message: error.message });
     }
@@ -23,7 +22,7 @@ const getResponses = async (req, res) => {
   const createResponse = async (req, res) => {
     try {
       const response = await Response.create(req.body);
-      res.status(200).json(quiz);
+      res.status(200).json(response);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -32,13 +31,13 @@ const getResponses = async (req, res) => {
   const updateResponse = async (req, res) => {
     try {
       const { id } = req.params;
-      const response = await Quiz.findByIdAndUpdate(id, req.body);
+      const response = await Response.findByIdAndUpdate(id, req.body);
   
       if (!response) {
         return res.status(404).json({ message: "Response not found" });
       }
   
-      const updatedResponse = await Quiz.findById(id);
+      const updatedResponse = await Response.findById(id);
       res.status(200).json(updatedResponse);
     } catch {
       res.status(500).json({ message: error.message });

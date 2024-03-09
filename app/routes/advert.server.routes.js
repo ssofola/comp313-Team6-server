@@ -18,4 +18,4 @@ router.put("/:id", updateAdvert);
 
 router.delete("/:id", deleteAdvert);
 
-module.exports = advertRouter;
+module.exports = router;

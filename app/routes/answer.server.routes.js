@@ -19,4 +19,4 @@ router.put("/:id", updateAnswer);
 
 router.delete("/:id", deleteAnswer);
 
-module.exports = AnswerRoute;
+module.exports = router;

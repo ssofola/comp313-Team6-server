@@ -49,12 +49,22 @@ module.exports = function () {
   require("../app/routes/location.server.routes")(app);
   require("../app/routes/institution.server.routes")(app);
   require("../app/routes/test.server.routes")(app);
-  require("../app/routes/advert.server.routes")(app);
-  require("../app/routes/answer.server.routes")(app);
-  require("../app/routes/course.server.routes")(app);
-  require("../app/routes/question.server.routes")(app);
-  require("../app/routes/quiz.server.routes")(app);
-  require("../app/routes/response.server.routes")(app);
+
+  // Import routes files
+  const advertRouter = require("../app/routes/advert.server.routes");
+  const AnswerRoute = require("../app/routes/answer.server.routes");
+  const courseRouter = require("../app/routes/course.server.routes");
+  const questionRouter = require("../app/routes/question.server.routes");
+  const quizRouter = require("../app/routes/quiz.server.routes");
+  const responseRouter = require("../app/routes/response.server.routes");
+
+  // Mount the routers
+  app.use("/adverts", advertRouter);
+  app.use("/answers", AnswerRoute);
+  app.use("/courses", courseRouter);
+  app.use("/questions", questionRouter);
+  app.use("/quizzes", quizRouter);
+  app.use("/responses", responseRouter);
 
   // Return the Express application instance
   return app;

@@ -19,4 +19,4 @@ router.put("/:id", updateCourse);
 
 router.delete("/:id", deleteCourse);
 
-module.exports = courseRoute;
+module.exports = router;

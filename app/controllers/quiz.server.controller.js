@@ -14,7 +14,6 @@ const getQuiz = async (req, res) => {
     const { id } = req.params;
     const quiz = await Quiz.findById(id);
     res.status(200).json(quiz);
-    Ï;
   } catch {
     res.status(500).json({ message: error.message });
   }
@@ -51,7 +50,7 @@ const deleteQuiz = async (req, res) => {
 
     const quiz = await Quiz.findByIdAndDelete(id);
 
-    if (!course) {
+    if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
     }
 

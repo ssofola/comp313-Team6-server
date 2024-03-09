@@ -13,4 +13,4 @@ router.put("/:id", updateResponse);
 
 router.delete("/:id", deleteResponse);
 
-module.exports = ResponseRouter;
+module.exports = router;

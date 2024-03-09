@@ -19,4 +19,4 @@ router.put("/:id", updateQuiz);
 
 router.delete("/:id", deleteQuiz);
 
-module.exports = QuizRouter;
+module.exports = router;

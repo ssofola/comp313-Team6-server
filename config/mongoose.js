@@ -9,12 +9,17 @@ module.exports = function() {
     .catch(err => console.error('Could not connect to MongoDB...', err));
 
     // Load models
+    require('../app/models/advert.server.model');
+    require('../app/models/answer.server.model');
+    require('../app/models/course.server.model');
+    require('../app/models/institution.server.model');
+    require('../app/models/location.server.model');
+    require('../app/models/question.server.model');
+    require('../app/models/quiz.server.model');
+    require('../app/models/response.server.model');
+    require('../app/models/test.server.model');
     require('../app/models/user.server.model');
     require('../app/models/userInstitution.server.model');
-    require('../app/models/location.server.model');
-    require('../app/models/institution.server.model');
-    require('../app/models/test.server.model');
-
 
     return db;
 };

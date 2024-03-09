@@ -37,7 +37,7 @@ const getAnswers = async (req, res) => {
         return res.status(404).json({ message: "Answer not found" });
       }
   
-      const updatedAnswer = await Question.findById(id);
+      const updatedAnswer = await Answer.findById(id);
       res.status(200).json(updatedAnswer);
     } catch {
       res.status(500).json({ message: error.message });
@@ -50,7 +50,7 @@ const getAnswers = async (req, res) => {
   
       const answer = await Answer.findByIdAndDelete(id);
   
-      if (!question) {
+      if (!answer) {
         return res.status(404).json({ message: "Answer not found" });
       }
   
