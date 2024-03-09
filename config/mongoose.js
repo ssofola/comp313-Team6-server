@@ -10,6 +10,10 @@ module.exports = function() {
 
     // Load models
     require('../app/models/user.server.model');
+    require('../app/models/userInstitution.server.model');
+    require('../app/models/location.server.model');
+    require('../app/models/institution.server.model');
+    require('../app/models/test.server.model');
 
     return db;
 };

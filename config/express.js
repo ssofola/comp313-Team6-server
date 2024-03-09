@@ -1,7 +1,7 @@
 //express file
 
 // Load the module dependencies
-var config = require('./config');
+const config = require('./config');
 const express = require('express');
 const morgan = require('morgan');
 const compress = require('compression');
@@ -37,8 +37,14 @@ module.exports = function() {
     }));
     // Configure the 'CORS' middleware
     app.use(cors());
+
     // Load the routing files
     require('../app/routes/user.server.routes')(app);
+    require('../app/routes/userInstitution.server.routes')(app);
+    require('../app/routes/location.server.routes')(app);
+    require('../app/routes/institution.server.routes')(app);
+    require('../app/routes/test.server.routes')(app);
+    
     // Return the Express application instance
     return app;
 };
