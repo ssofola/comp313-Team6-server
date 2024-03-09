@@ -13,7 +13,7 @@ const CourseSchema = new Schema({
     },
     institutionId: {
         type: Schema.Types.ObjectId,
-        ref: 'Institution', // This references the Institution model
+        ref: 'Institution', 
         required: true
     }
 });
