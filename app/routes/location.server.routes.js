@@ -1,13 +1,17 @@
-const locations = require('../controllers/location.server.controller');
 const express = require('express');
+const router = express.Router();
+const {
+    getLocations,
+    getLocation,
+    createLocation,
+    updateLocation,
+    deleteLocation
+} = require('../controllers/location.server.controller');
 
-module.exports = function(app) {
-    app.route('/locations')
-        .post(locations.create)
-        .get(locations.list);
-    app.route('/locations/:locationId')
-        .get(locations.read)
-        .put(locations.update)
-        .delete(locations.delete);
-    app.param('locationId', locations.locationByID);
-};
+router.post("/", createLocation);
+router.get("/", getLocations);
+router.get("/:id", getLocation);
+router.put("/:id", updateLocation);
+router.delete("/:id", deleteLocation);
+
+module.exports = router;

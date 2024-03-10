@@ -1,64 +1,60 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const Institution = mongoose.model('Institution');
+const Institution = require('../models/institution.server.model');
 
-// Create a new institution
-exports.create = async function(req, res, next) {
-    try {
-        const institution = new Institution(req.body);
-        await institution.save();
-        res.json(institution);
-    } catch (err) {
-        next(err);
-    }
+const createInstitution = async (req, res) => {
+  try {
+    const institution = await Institution.create(req.body);
+    res.status(200).json(institution);
+  } catch (error) {
+    res.status(500).json({ message: error.message});
+  }
 };
 
-// Retrieve a list of institutions
-exports.list = async function(req, res, next) {
-    try {
-        const institutions = await Institution.find({});
-        res.json(institutions);
-    } catch (err) {
-        next(err);
-    }
+const getInstitutions = async (req, res) => {
+  try {
+    const institutions = await Institution.find({});
+    res.status(200).json(institutions);
+  } catch (error) {
+    res.status(500).json({ message: error.message});
+  }
 };
 
-// Retrieve a single institution by ID
-exports.read = function(req, res) {
-    res.json(req.institution);
+const getInstitution = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const institution = await Institution.findById(id);
+    res.status(200).json(institution);
+  } catch (error) {
+    res.status(500).json({ message: error.message});
+  }
 };
 
-// Update an existing institution
-exports.update = async function(req, res, next) {
-    try {
-        const institution = await Institution.findByIdAndUpdate(req.institution.id, req.body, { new: true });
-        res.json(institution);
+const updateInstitution = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const institution = await Institution.findByIdAndUpdate(id, req.body);
+    if(!institution) {
+      return res.status(404).json({ error: 'Institution not found' });
     }
-    catch (err) {
-        next(err);
-    }
+    const updatedInstitution = await Institution.findById(id);
+    res.status(200).json(updatedInstitution);
+  }
+  catch (error) {
+    res.status(500).json({ message: error.message});
+  }
 }
 
-// Delete an existing institution
-exports.delete = async function(req, res, next) {
-    try {
-        const deletedInstitution = await Institution.deleteOne({ _id: req.institution._id });
-        res.json(deletedInstitution);
-    } catch (err) {
-        next(err);
+const deleteInstitution = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedInstitution = await Institution.findByIdAndDelete(id);
+    if(!deletedInstitution) {
+      res.status(404).json({ error: 'Institution not found'})
     }
+    res.status(200).json({ message: 'Institution deleted successfully' });
+  } catch (error) {
+      res.status(500).json({ message: error.message});
+  }
 };
 
-// Middleware to find institution by ID
-exports.institutionByID = async function(req, res, next, id) {
-    try {
-        const institution = await Institution.findOne({ _id: id });
-        if (!institution) {
-            return res.status(404).json({ error: 'Institution not found' });
-        }
-        req.institution = institution;
-        next();
-    } catch (err) {
-        next(err);
-    }
-};
+
+module.exports = { createInstitution, getInstitutions, getInstitution, updateInstitution, deleteInstitution }

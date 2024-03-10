@@ -1,13 +1,17 @@
-const institutions = require('../controllers/institution.server.controller');
-const express = require('express');
+const express = require("express");
+const router = express.Router();
+const {
+    getInstitutions,
+    getInstitution,
+    createInstitution,
+    updateInstitution,
+    deleteInstitution
+} = require("../controllers/institution.server.controller");
 
-module.exports = function(app) {
-    app.route('/institutions')
-        .post(institutions.create)
-        .get(institutions.list);
-    app.route('/institutions/:institutionId')
-        .get(institutions.read)
-        .put(institutions.update)
-        .delete(institutions.delete);
-    app.param('institutionId', institutions.institutionByID);
-};
+router.post("/", createInstitution);
+router.get("/", getInstitutions);
+router.get("/:institutionId", getInstitution);
+router.put("/:institutionId", updateInstitution);
+router.delete("/:institutionId", deleteInstitution);
+
+module.exports = router;

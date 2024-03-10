@@ -1,17 +1,28 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Define the schema
 const InstitutionSchema = new Schema({
-    fullName: String,
-    abbreviation: String,
-    instCode: String,
+    fullName:  {
+        type : String,
+        required: true
+    },
+    abbreviation:  {
+        type : String,
+        required: true
+    },
+    instCode:  {
+        type : String,
+        required: true
+    },
     location: {
         type: Schema.Types.ObjectId,
         ref: 'Location'
     },
-    type: String
+    type:  {
+        type : String,
+        required: true
+    },
 });
 
-// Create the 'Institution' model out of the 'InstitutionSchema'
-mongoose.model('Institution', InstitutionSchema);
+const Institution = mongoose.model('Institution', InstitutionSchema);
+module.exports = Institution;

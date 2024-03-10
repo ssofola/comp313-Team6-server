@@ -43,28 +43,31 @@ module.exports = function () {
   // Configure the 'CORS' middleware
   app.use(cors());
 
-  // Load the routing files
-  require("../app/routes/user.server.routes")(app);
-  require("../app/routes/userInstitution.server.routes")(app);
-  require("../app/routes/location.server.routes")(app);
-  require("../app/routes/institution.server.routes")(app);
-  require("../app/routes/test.server.routes")(app);
-
   // Import routes files
   const advertRouter = require("../app/routes/advert.server.routes");
-  const AnswerRoute = require("../app/routes/answer.server.routes");
+  const answerRoute = require("../app/routes/answer.server.routes");
   const courseRouter = require("../app/routes/course.server.routes");
+  const institutionRouter = require("../app/routes/institution.server.routes");
+  const locationRouter = require("../app/routes/location.server.routes");
   const questionRouter = require("../app/routes/question.server.routes");
   const quizRouter = require("../app/routes/quiz.server.routes");
   const responseRouter = require("../app/routes/response.server.routes");
+  const userRouter= require("../app/routes/user.server.routes");
+  const authRouter = require("../app/routes/auth.server.routes");
+  const registerRouter = require("../app/routes/register.server.routes");
 
   // Mount the routers
   app.use("/adverts", advertRouter);
-  app.use("/answers", AnswerRoute);
+  app.use("/answers", answerRoute);
   app.use("/courses", courseRouter);
+  app.use("/institutions", institutionRouter);
+  app.use("/locations", locationRouter);
   app.use("/questions", questionRouter);
   app.use("/quizzes", quizRouter);
   app.use("/responses", responseRouter);
+  app.use("/users", userRouter);
+  app.use("/login", authRouter);
+  app.use("/register", registerRouter);
 
   // Return the Express application instance
   return app;

@@ -1,64 +1,65 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const Location = mongoose.model('Location');
+const Location = require('../models/location.server.model');
 
-// Create a new location
-exports.create = async function(req, res, next) {
-    try {
-        const location = new Location(req.body);
-        await location.save();
-        res.json(location);
-    } catch (err) {
-        next(err);
-    }
+const createLocation = async (req, res)=> {
+  try {
+    const location = await Location.create(req.body);
+    res.status(200).json(location);
+  } catch (error) {
+    res.status(500).json({ message: error.message});
+  }
 };
 
-// Retrieve a list of locations
-exports.list = async function(req, res, next) {
-    try {
-        const locations = await Location.find({});
-        res.json(locations);
-    } catch (err) {
-        next(err);
-    }
+const getLocations = async (req, res) => {
+  try {
+    const locations = await Location.find({});
+    res.status(200).json(locations);
+  } catch (error) {
+    res.status(500).json({ message: error.message});
+  }
 };
 
-// Retrieve a single location by ID
-exports.read = function(req, res) {
-    res.json(req.location);
+const getLocation = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const location = await Location.findById(id);
+    res.status(200).json(location);
+  } catch (error) {
+    res.status(500).json({ message: error.message});
+  }
 };
 
-// Update an existing location
-exports.update = async function(req, res, next) {
-    try {
-        const location = await Location.findByIdAndUpdate(req.location.id, req.body, { new: true });
-        res.json(location);
+const updateLocation = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const location = await Location.findByIdAndUpdate(id, req.body);
+    if(!location) {
+      return res.status(404).json({ message: "Location not found" });
     }
-    catch (err) {
-        next(err);
-    }
+    const updatedLocation = await Location.findById(id);
+    res.status(200).json(updatedLocation);
+  }
+  catch (error) {
+    res.status(500).json({ message: error.message});
+  }
 }
 
-// Delete an existing location
-exports.delete = async function(req, res, next) {
-    try {
-        const deletedLocation = await Location.deleteOne({ _id: req.location._id });
-        res.json(deletedLocation);
-    } catch (err) {
-        next(err);
+const deleteLocation = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedLocation = await Location.findByIdAndDelete(id);
+    if(!deletedLocation) {
+      return res.status(404).json({ message: "Location not found" });
     }
+    res.status(200).json({ message: "Location deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message});
+  }
 };
 
-// Middleware to find location by ID
-exports.locationByID = async function(req, res, next, id) {
-    try {
-        const location = await Location.findOne({ _id: id });
-        if (!location) {
-            return res.status(404).json({ error: 'Location not found' });
-        }
-        req.location = location;
-        next();
-    } catch (err) {
-        next(err);
-    }
-};
+module.exports = {
+  createLocation,
+  getLocations,
+  getLocation,
+  updateLocation,
+  deleteLocation
+}
