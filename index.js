@@ -1,6 +1,5 @@
 const mongoose = require('./config/mongoose');
 const express = require('./config/express');
-const advertRouter = require('./app/routes/advert.server.routes');
 
 // Connect to MongoDB
 const db = mongoose();
