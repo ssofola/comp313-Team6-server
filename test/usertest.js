@@ -11,6 +11,7 @@ describe('Testing the test suite', () => {
     });
     // As of right now we can only delete by id, 
     // so it would be wise to change the json here when you want to test for now
+    // Also this crowds the db if you run it too many times
     it('creating a new user', async() =>{
         const user = {
             email: 'test@test.com5',
