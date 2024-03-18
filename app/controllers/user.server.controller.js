@@ -59,7 +59,7 @@ const updateUser = async (req, res)=> {
       return res.status(404).json({ error: 'User not found' });
     }
     const updatedUser = await User.findById(id);
-    res.status(200).json(updatedUser);
+    res.status(203).json(updatedUser);
   } catch (error) {
     res.status(500).json({ message: error.message});
   }
@@ -73,7 +73,7 @@ const deleteUser = async (req, res) => {
       if(!deletedUser) {
         return res.status(404).json({ error: 'User not found' });
       }
-      res.status(200).json({ message: 'User deleted successfully' });
+      res.status(204).json({ message: 'User deleted successfully' });
     } catch (error) {
       res.status(500).json({ message: error.message});
     }

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "mocha"
+    "test": "mocha --timeout 10000"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,14 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "mocha": "^10.3.0"
+    "chai": "^5.1.0",
+    "chai-http": "^4.4.0",
+    "jsonpath": "^1.1.1",
+    "mocha": "^10.3.0",
+    "request": "^2.88.2",
+    "supertest": "^6.3.4",
+    "unirest": "^0.6.0",
+    "xmldom": "^0.6.0",
+    "xpath": "^0.0.34"
   }
 }
