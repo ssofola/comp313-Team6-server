@@ -3,15 +3,14 @@ const server = require('../index.js');
 // Run with npm test
 //describe is the test suite, "it" are the test cases
 describe('Testing the test suite', () => {
+    let userId;
     it('getting users', async() => {
         await request(server)
             .get('/users')
             .expect('Content-Type', /json/)
             .expect(200);
     });
-    // As of right now we can only delete by id, 
-    // so it would be wise to change the json here when you want to test for now
-    // Also this crowds the db if you run it too many times
+
     it('creating a new user', async() =>{
         const user = {
             email: 'test@test.com5',
@@ -19,19 +18,13 @@ describe('Testing the test suite', () => {
             password: 'testpassword5',
             userType: 'testtype5'
         };
-        await request(server)
+        const response = await request(server)
             .post('/users')
             .send(user)
             .expect('Content-Type', /json/)
             .expect(201)// 201 is the success code for post
-    });
-    // This would also have to be changed everytime you want to run this test case, 
-    //all the ids are randomly generated and I couldn't figure out how to give a specific id when posting
-    it('deleting a user by id', async() => {
-        const id = '65f7d1b9d7e41290d92a323b';
-        await request(server)
-            .delete(`/users/${id}`)
-            .expect(204)
+
+            userId = response.body._id;
     });
     it('updating a user by id', async() => {
         const user = {
@@ -39,10 +32,16 @@ describe('Testing the test suite', () => {
             fullName: 'updated tester',
             userType: 'updated type'
         };
-        const id = '65f7d404540c92093699cd2b';
+     
         await request(server)
-        .put(`/users/${id}`)
+        .put(`/users/${userId}`)
         .send(user)
         .expect(203)
+    });
+
+    it('deleting a user by id', async() => {
+        await request(server)
+            .delete(`/users/${userId}`)
+            .expect(204)
     });
 });
