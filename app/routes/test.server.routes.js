@@ -1,13 +1,16 @@
-const tests = require('../controllers/test.server.controller');
-const express = require('express');
+const express = require("express");
+const router = express.Router();
 
-module.exports = function(app) {
-    app.route('/tests')
-        .post(tests.create)
-        .get(tests.list);
-    app.route('/tests/:testId')
-        .get(tests.read)
-        .put(tests.update)
-        .delete(tests.delete);
-    app.param('testId', tests.testByID);
-};
+const { getTests, getTest, createTest, updateTest, deleteTest } = require("../controllers/test.server.controller")
+
+router.get("/", getTests);
+
+router.get("/:id", getTest);
+
+router.post("/", createTest);
+
+router.put("/:id", updateTest);
+
+router.delete("/:id", deleteTest);
+
+module.exports = router;

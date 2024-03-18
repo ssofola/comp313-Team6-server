@@ -4,7 +4,7 @@ const Advert = require("../models/advert.server.model");
 const createAdvert = async (req, res) => {
   try {
     const advert = await Advert.create(req.body);
-    res.status(200).json(advert);
+    res.status(201).json(advert);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -37,7 +37,7 @@ const updateAdvert = async (req, res) => {
       return res.status(404).json({ message: "Advert not found" });
     }
     const updatedAdvert = await Advert.findById(id);
-    res.status(200).json(updatedAdvert);
+    res.status(203).json(updatedAdvert);
   } catch {
     res.status(500).json({ message: error.message });
   }
@@ -50,7 +50,7 @@ const deleteAdvert = async (req, res) => {
         if(!advert){
             return res.status(404).json({message: "Advert not found"});
         }
-        res.status(200).json({message: "Advert deleted successfully"})
+        res.status(204).json({message: "Advert deleted successfully"})
     } catch{
         res.status(500).json({message: error.message});
     }

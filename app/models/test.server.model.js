@@ -5,18 +5,34 @@ const Schema = mongoose.Schema;
 const TestSchema = new Schema({
     userID : {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     quizID : {
         type: Schema.Types.ObjectId,
-        ref: 'Quiz'
+        ref: 'Quiz',
+        required: true
     },
-    quizDT : Date,
-    maxScorePct : Number,
-    testScore: Number,
-    testTotal: Number,
-    completed: Boolean
+    quizDT : {
+        type: Date, 
+        required: true
+    },
+    maxScorePct : {
+        type: Number, 
+        required: true
+    },
+    testScore: {
+        type: Number, 
+        required: true
+    },
+    testTotal: {
+        type: Number, 
+        required: true
+    },
+    completed: {
+        type: Boolean, 
+        required: true
+    }
 });
 
-// Create the 'Test' model out of the 'TestSchema'
-mongoose.model('Test', TestSchema);
+module.exports = mongoose.model('Test', TestSchema);

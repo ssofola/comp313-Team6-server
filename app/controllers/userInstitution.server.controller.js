@@ -1,63 +1,62 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const UserInstitution = mongoose.model('UserInstitution');
+const UserInstitution = require('../models/userInstitution.server.model');
 
-// Create a new userInstitution
-exports.create = async function(req, res, next) {
-    try {
-        const userInstitution = new UserInstitution(req.body);
-        await userInstitution.save();
-        res.json(userInstitution);
-    } catch (err) {
-        next(err);
-    }
-};
-
-// Retrieve a list of userInstitutions
-exports.list = async function(req, res, next) {
+const getUserInstitutions = async (req, res) => {
     try {
         const userInstitutions = await UserInstitution.find({});
-        res.json(userInstitutions);
-    } catch (err) {
-        next(err);
+        res.status(200).json(userInstitutions);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
 
-// Retrieve a single userInstitution by ID
-exports.read = function(req, res) {
-    res.json(req.userInstitution);
-};
-
-// Update an existing userInstitution
-exports.update = async function(req, res, next) {
+const getUserInstitution = async (req, res) => {
     try {
-        const userInstitution = await UserInstitution.findByIdAndUpdate(req.userInstitution.id, req.body, { new: true });
-        res.json(userInstitution);
-    } catch (err) {
-        next(err);
-    }
-};
-
-// Delete an existing userInstitution
-exports.delete = async function(req, res, next) {
-    try {
-        const deletedUserInstitution = await UserInstitution.deleteOne({ _id: req.userInstitution._id });
-        res.json(deletedUserInstitution);
-    } catch (err) {
-        next(err);
-    }
-};
-
-// Middleware to find userInstitution by ID
-exports.userInstitutionByID = async function(req, res, next, id) {
-    try {
-        const userInstitution = await UserInstitution.findOne({ _id: id });
+        const { id } = req.params;
+        const userInstitution = await UserInstitution.findById(id);
         if (!userInstitution) {
-            return res.status(404).json({ error: 'UserInstitution not found' });
+            return res.status(404).json({ message: 'UserInstitution not found' });
         }
-        req.userInstitution = userInstitution;
-        next();
-    } catch (err) {
-        next(err);
+        res.status(200).json(userInstitution);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-};
+}
+
+const createUserInstitution = async (req, res) => {
+    try {
+        const userInstitution = await UserInstitution.create(req.body);
+        res.status(201).json(userInstitution);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const updateUserInstitution = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userInstitution = await UserInstitution.findByIdAndUpdate(id, req.body
+            , { new: true });
+        if (!userInstitution) {
+            return res.status(404).json({ message: 'UserInstitution not found' });
+        }
+        res.status(200).json(userInstitution);
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const deleteUserInstitution = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userInstitution = await UserInstitution.findByIdAndDelete(id);
+        if (!userInstitution) {
+            return res.status(404).json({ message: 'UserInstitution not found' });
+        }
+        res.status(200).json({ message: 'UserInstitution deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { getUserInstitutions, getUserInstitution, createUserInstitution, updateUserInstitution, deleteUserInstitution };

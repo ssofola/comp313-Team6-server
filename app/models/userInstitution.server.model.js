@@ -4,9 +4,14 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const UserInstitutionSchema = new Schema({
-    userID : Number,
-    institutionID : Number
+    userID :{
+        type: Number, 
+        required: true
+    },
+    institutionID : {
+        type: Number, 
+        required: true
+    },
 });
 
-// Create the 'UserInstitution' model out of the 'UserInstitutionSchema'
-mongoose.model('UserInstitution', UserInstitutionSchema);
+module.exports = mongoose.model('UserInstitution', UserInstitutionSchema);

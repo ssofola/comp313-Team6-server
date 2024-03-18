@@ -55,6 +55,8 @@ module.exports = function () {
   const userRouter= require("../app/routes/user.server.routes");
   const authRouter = require("../app/routes/auth.server.routes");
   const registerRouter = require("../app/routes/register.server.routes");
+  const testRouter = require("../app/routes/test.server.routes");
+  const userInstitutionRouter = require("../app/routes/userInstitution.server.routes");
 
   // Mount the routers
   app.use("/adverts", advertRouter);
@@ -68,6 +70,8 @@ module.exports = function () {
   app.use("/users", userRouter);
   app.use("/login", authRouter);
   app.use("/register", registerRouter);
+  app.use("/tests", testRouter);
+  app.use("/userInstitutions", userInstitutionRouter);
 
   // Return the Express application instance
   return app;

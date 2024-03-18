@@ -1,66 +1,60 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const Test = mongoose.model('Test');
+const Test = require("../models/test.server.model");
 
-// Create a new test
-exports.create = async function(req, res, next) {
-    try {
-        const test = new Test(req.body);
-        await test.save();
-        res.json(test);
-    } catch (err) {
-        next(err);
-    }
-};
-
-// Retrieve a list of tests
-exports.list = async function(req, res, next) {
+const getTests = async (req, res) => {
     try {
         const tests = await Test.find({});
-        res.json(tests);
-    } catch (err) {
-        next(err);
+        res.status(200).json(tests);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
 
-// Retrieve a single test by ID
-exports.read = function(req, res) {
-    res.json(req.test);
-};
-
-// Update an existing test
-exports.update = async function(req, res, next) {
+const getTest = async (req, res) => {
     try {
-        const test = await Test.findByIdAndUpdate(req.test.id, req.body, { new: true });
-        res.json(test);
-    }
-    catch (err) {
-        next(err);
-    }
-}
-
-// Delete an existing test
-exports.delete = async function(req, res, next) {
-    try {
-        const deletedTest = await Test.deleteOne({ _id: req.test._id });
-        res.json(deletedTest);
-    } catch (err) {
-        next(err);
-    }
-};
-
-// Middleware to find test by ID
-exports.testByID = async function(req, res, next, id) {
-    try {
-        const test = await Test.findOne({ _id: id });
+        const { id } = req.params;
+        const test = await Test.findById(id);
         if (!test) {
-            return res.status(404).json({ error: 'Test not found' });
+            return res.status(404).json({ message: "Test not found" });
         }
-        req.test = test;
-        next();
+        res.status(200).json(test);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-    catch (err) {
-        next(err);
-    }
-}
+};
 
+const createTest = async (req, res) => {
+    try {
+        const test = await Test.create(req.body);
+        res.status(201).json(test);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const updateTest = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const test = await Test.findByIdAndUpdate(id, req.body, { new: true });
+        if (!test) {
+            return res.status(404).json({ message: "Test not found" });
+        }
+        res.status(200).json(test);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const deleteTest = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const test = await Test.findByIdAndDelete(id);
+        if (!test) {
+            return res.status(404).json({ message: "Test not found" });
+        }
+        res.status(200).json({ message: "Test deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = { getTests, getTest, createTest, updateTest, deleteTest };
