@@ -22,7 +22,7 @@ const getCourse = async (req, res) => {
 const createCourse = async (req, res) => {
   try {
     const course = await Course.create(req.body);
-    res.status(200).json(course);
+    res.status(201).json(course);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -38,7 +38,7 @@ const updateCourse = async (req, res) => {
     }
 
     const updatedCourse = await Course.findById(id);
-    res.status(200).json(updatedCourse);
+    res.status(203).json(updatedCourse);
   } catch {
     res.status(500).json({ message: error.message });
   }
@@ -54,7 +54,7 @@ const deleteCourse = async (req, res) => {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    res.status(200).json({ message: "Course deleted successfully" });
+    res.status(204).json({ message: "Course deleted successfully" });
   } catch {
     res.status(500).json({ message: error.message });
   }

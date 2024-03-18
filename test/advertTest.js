@@ -1,10 +1,10 @@
 const request = require('supertest');
-const server = require('../index.js'); // Make sure to replace '../index.js' with the correct path to your server file
+const server = require('../index.js');
 
-describe('Testing advert endpoints', () => {
+describe('Testing Advert endpoints', () => {
     let createdAdvertId;
 
-    it('should create an advert', async () => {
+    it('should create an Advert', async () => {
         const newAdvert = {
             name: 'Test Advert',
             fromDate: new Date(),
@@ -20,14 +20,14 @@ describe('Testing advert endpoints', () => {
         createdAdvertId = response.body._id;
     });
 
-    it('should retrieve the created advert', async () => {
+    it('should retrieve the created Advert', async () => {
         await request(server)
             .get(`/adverts/${createdAdvertId}`)
             .expect('Content-Type', /json/)
             .expect(200);
     });
 
-    it('should update the created advert', async () => {
+    it('should update the created Advert', async () => {
         const updatedAdvertData = {
             name: 'Updated Test Advert',
             fromDate: new Date(),
@@ -40,7 +40,7 @@ describe('Testing advert endpoints', () => {
             .expect(203);
     });
 
-    it('should delete the created advert', async () => {
+    it('should delete the created Advert', async () => {
         await request(server)
             .delete(`/adverts/${createdAdvertId}`)
             .expect(204);
