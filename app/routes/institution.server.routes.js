@@ -10,8 +10,8 @@ const {
 
 router.post("/", createInstitution);
 router.get("/", getInstitutions);
-router.get("/:institutionId", getInstitution);
-router.put("/:institutionId", updateInstitution);
-router.delete("/:institutionId", deleteInstitution);
+router.get("/:id", getInstitution);
+router.put("/:id", updateInstitution);
+router.delete("/:id", deleteInstitution);
 
 module.exports = router;
